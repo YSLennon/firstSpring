@@ -12,4 +12,10 @@ public class Student {
 	private String stuGender;
 	private String stuHeight;
 	private String stuWeight;
+
+	private int subNo;
+	private String subName;
+	private String subProf;
+	private int subGrade;
+	private String subDept;
 }

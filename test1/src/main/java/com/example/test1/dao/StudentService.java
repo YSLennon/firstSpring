@@ -8,9 +8,11 @@ import com.example.test1.model.Student;
 
 public interface StudentService {
 	// 게시글 조회
-	List<Student> searchStudentList(HashMap<String, Object> map);
+	List<Student> searchStudentList();
 	Student searchQwer();
 	HashMap<String, Object> searchNumb(HashMap<String,Object> map);
 	List<EMP> searchEMP();
+	HashMap<String, List<Student>> searchSubject();
+
 	
 }

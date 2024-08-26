@@ -35,12 +35,16 @@ public class StudentController {
 	public String testEmp(Model model) throws Exception{
 		return "emp-list";
 	}
+	@RequestMapping("/subject.do")
+	public String testSubject(Model model) throws Exception{
+		return "subject-list";
+	}
 	
 	@RequestMapping(value = "/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String searchBbsList(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
 		HashMap<String, Object> resultMap = new HashMap<String, Object>();
-		List<Student> list = studentService.searchStudentList(map);
+		List<Student> list = studentService.searchStudentList();
 		resultMap.put("list", list);
 		resultMap.put("result", "success");
 		return new Gson().toJson(resultMap);
@@ -68,6 +72,14 @@ public class StudentController {
 		List<EMP> list = studentService.searchEMP();
 
 		return new Gson().toJson(list);
+	}
+	@RequestMapping(value = "/subject-list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String printSubject(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+
+		HashMap<String, List<Student>> resultMap = studentService.searchSubject();
+
+		return new Gson().toJson(resultMap);
 	}
 }
 
