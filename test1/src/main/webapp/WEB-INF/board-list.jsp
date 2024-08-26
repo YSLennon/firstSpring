@@ -48,7 +48,8 @@
         methods: {
             fnGetList(){
 				var self = this;
-				var nparmap = {keyword: (self.keyword === "")?'%':'%'+self.keyword+'%'};
+//				var nparmap = {keyword: self.keyword === "")?'%':'%'+self.keyword+'%'};
+				var nparmap = {keyword: self.keyword};
 				$.ajax({
 					url:"/board/list.dox",
 					dataType:"json",	

@@ -5,7 +5,7 @@
 <mapper namespace="com.example.test1.mapper.BoardMapper">
 	<select id="searchBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
 		SELECT *
-		FROM TBL_BOARD WHERE TITLE LIKE '${keyword}'
+		FROM TBL_BOARD WHERE TITLE LIKE '%'||${keyword}||'%'
 	</select>
 	<delete id="removeBoard" parameterType="hashmap">
 		DELETE FROM TBL_BOARD
