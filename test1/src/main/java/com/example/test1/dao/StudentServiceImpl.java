@@ -44,7 +44,6 @@ public class StudentServiceImpl implements StudentService{
 			System.out.println("SQLExcetpion : " + e);
 			resultMap.put("result", "false");
 			resultMap.put("message", "DB조회 오류");
-
 		}
 		
 		return resultMap; 
@@ -66,7 +65,6 @@ public class StudentServiceImpl implements StudentService{
 		HashMap<String, List<Student>> resultMap = new HashMap();
 		resultMap.put("subList", subList);
 		resultMap.put("stuList", stuList);
-		
 		
 		return resultMap;
 	}

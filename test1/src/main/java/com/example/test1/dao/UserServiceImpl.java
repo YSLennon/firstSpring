@@ -3,6 +3,8 @@ package com.example.test1.dao;
 import java.util.HashMap;
 import java.util.Random;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +21,10 @@ public class UserServiceImpl implements UserService {
 //TODO 매퍼 다시 살려야함
 	@Autowired
 	UserMapper userMapper;
+	
+	@Autowired
+	HttpSession session;
+	
 
 	private int makeConfirmNumbAndSendMessage(Object phoneNumb) {
 		// TODO API키랑 시크릿 키는 지워둬야함
@@ -93,20 +99,31 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		System.out.println(map);
 		HashMap<String, Object> resultMap = new HashMap<>();
-		User user = userMapper.login(map);
-		String message;
+		
+		String message = "";
 		boolean result = false;
-		if (user == null) {
-			message = "아이디가 존재하지 않습니다";
-		} else if (map.get("pwd").equals(user.getPwd())) {
-			result = true;
-			message = "로그인에 성공했습니다.";
-		} else {
-			message = "비밀번호가 일치하지않습니다.";
+		try {
+			
+			User user = userMapper.login(map);
+			
+			if (user == null) {
+				message = "아이디가 존재하지 않습니다";
+			} else if (map.get("pwd").equals(user.getPwd())) {
+				result = true;
+				message = "로그인에 성공했습니다.";
+				session.setAttribute("userId", user.getUserId());
+			} else {
+				message = "비밀번호가 일치하지않습니다.";
+				//TODO CNT값 증가 필요!	
+			}
+			
+		} catch(Exception e) {
+			message = "예기치못한 오류로 로그인에 실패하였습니다";
+		} finally {
+			resultMap.put("message", message);
+			resultMap.put("result", result);
+			
 		}
-		resultMap.put("message", message);
-		resultMap.put("result", result);
-
 		return resultMap;
 	}
 

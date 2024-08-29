@@ -8,11 +8,28 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
+	table, tr, td, th{
+		border-collapse: collapse;
+		border: 1px solid black;
+		padding: 5px 10px;
+		margin: 100px auto;
+	}
 </style>
 <body>
 
 	<div id="app">
-		<div>
+		<ul style="margin: 0px 500px;">
+			<li><a href="#" @click="changeBoardCat('')">전체</a></li>
+			<li><a href="#" @click="changeBoardCat('1')">공지사항</a></li>
+			<li><a href="#" @click="changeBoardCat('2')">자유게시판</a></li>
+			<li><a href="#" @click="changeBoardCat('3')">질문게시판</a></li>
+		</ul>
+		<div style="margin: 0px 500px;">
+			<select v-model="category">
+				<option value="all">전체</option>	
+				<option value="org">작성자</option>	
+				<option value="tit">제목</option>	
+			</select>
 			<input id="searchBox" v-model="keyword">
 			<button @click="fnGetList">검색</button>	
 		</div>
@@ -29,7 +46,7 @@
 				<td>{{item.boardNo}}</td>
 				<td>{{item.title}}</td>
 				<td>{{item.userId}}</td>
-				<td>{{item.Hit}}</td>
+				<td>{{item.hit}}</td>
 				<td>{{item.cDatetime}}</td>
 				<td><button type="button" @click="fnRemove(item.boardNo)">삭제</button></td>
 			</tr>
@@ -42,14 +59,20 @@
         data() {
             return {
 				boardList : [],
-				keyword: ""
+				keyword: "",
+				category: "all",
+				boardCat: ""
             };
         },
         methods: {
             fnGetList(){
 				var self = this;
 //				var nparmap = {keyword: self.keyword === "")?'%':'%'+self.keyword+'%'};
-				var nparmap = {keyword: self.keyword};
+				var nparmap = {
+								keyword: self.keyword,
+								category: self.category,
+								boardCat: self.boardCat
+							  };
 				$.ajax({
 					url:"/board/list.dox",
 					dataType:"json",	
@@ -80,6 +103,11 @@
 					
 				}
 				
+			},
+			changeBoardCat(p1){
+				var self = this;
+				self.boardCat = p1;
+				self.fnGetList();
 			}
         },
         mounted() {

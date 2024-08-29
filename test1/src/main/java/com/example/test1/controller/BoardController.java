@@ -29,6 +29,7 @@ public class BoardController {
 	public String maininsert(Model model) throws Exception{
 		return "/board-insert";
 	}
+
 	
 	
 	@RequestMapping(value = "/board/list.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

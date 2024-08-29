@@ -4,8 +4,27 @@
 
 <mapper namespace="com.example.test1.mapper.BoardMapper">
 	<select id="searchBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT *
-		FROM TBL_BOARD WHERE TITLE LIKE '%'||${keyword}||'%'
+		<choose>
+		
+			<when test="category == 'all'">
+				SELECT *
+				FROM TBL_BOARD WHERE (TITLE LIKE '%'||#{keyword}||'%' OR  USERID LIKE '%'||#{keyword}||'%')
+			</when>
+			
+			<when test="category == 'org'">
+				SELECT *
+				FROM TBL_BOARD WHERE (USERID LIKE '%'||#{keyword}||'%')
+			</when>
+			
+			<otherwise>
+				SELECT *
+				FROM TBL_BOARD WHERE (TITLE LIKE '%'||#{keyword}||'%')
+			</otherwise>
+		</choose>
+		<if test="boardCat != ''">
+			 AND CATEGORY = #{boardCat}
+		</if>
+
 	</select>
 	<delete id="removeBoard" parameterType="hashmap">
 		DELETE FROM TBL_BOARD

@@ -11,7 +11,7 @@
 </style>
 <body>
 
-	<div id="app">
+	<div id="app" style="margin: 100px 700px">
 		<div>
 			<input id="userId" placeholder="userId" v-model="userId" @change="existedId = false">
 		</div>
@@ -48,7 +48,7 @@
 						console.log(data);
 						alert(data.message);
 						if(data.result){
-							location.href="/student.do"
+							location.href="/board/list.do"
 						}
 					}
 				});	
