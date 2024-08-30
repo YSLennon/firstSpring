@@ -3,6 +3,8 @@ package com.example.test1.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +17,11 @@ public class BoardServiceImpl implements BoardService {
 	@Autowired
 	BoardMapper boardMapper;
 
+	@Autowired
+	HttpSession session;
+
 	@Override
+
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
 		List<Board> list = boardMapper.searchBoardList(map);
@@ -29,9 +35,17 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
-			int removedNo = boardMapper.removeBoard(map);
-			resultMap.put("message", "삭제되었습니다.");
-			resultMap.put("result", true);
+			if(session.getAttribute("userId").equals(map.get("userId"))) {
+				int removedNo = boardMapper.removeBoard(map);
+				resultMap.put("message", "삭제되었습니다.");
+				resultMap.put("result", true);	
+			} else {
+				resultMap.put("message", "본인의 게시글만 삭제할 수 있습니다.");
+				resultMap.put("result", false);	
+				
+			}
+			
+			
 		} catch (Exception e) {
 			resultMap.put("message", "삭제에 실패하였습니다.");
 			resultMap.put("result", false);
@@ -45,8 +59,8 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
+			map.put("userId", session.getAttribute("userId"));
 			int insertBoard = boardMapper.insertBoard(map);
-			System.out.println("insertBoard: "+insertBoard);
 			resultMap.put("message", "작성되었습니다.");
 			resultMap.put("result", true);
 		} catch (Exception e) {
@@ -55,6 +69,17 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println("Exception : " + e);
 		}
 		return resultMap;
+	}
+
+	@Override
+	public HashMap<String, Object> viewBoard(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+		Board board = boardMapper.viewBoard(map);
+		resultMap.put("board", board);
+		resultMap.put("result", "success");
+		return resultMap;
+
 	}
 
 }

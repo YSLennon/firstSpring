@@ -1,7 +1,8 @@
 package com.example.test1.controller;
 
 import java.util.HashMap;
-import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.test1.dao.BoardService;
-import com.example.test1.model.Board;
 import com.google.gson.Gson;
 
 @Controller
@@ -28,6 +28,11 @@ public class BoardController {
 	@RequestMapping("board/insert.do")
 	public String maininsert(Model model) throws Exception{
 		return "/board-insert";
+	}	
+	@RequestMapping("board/view.do")
+	public String mainView(HttpServletRequest request, Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		request.setAttribute("boardNo", map.get("boardNo"));
+		return "/board-view";
 	}
 
 	
@@ -48,6 +53,12 @@ public class BoardController {
 	@ResponseBody
 	public String insertBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		HashMap<String, Object> resultMap= boardService.insertBoard(map);
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/board/view.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String viewBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		HashMap<String, Object> resultMap= boardService.viewBoard(map);
 		return new Gson().toJson(resultMap);
 	}
 }

@@ -10,6 +10,7 @@ import com.example.test1.model.Board;
 @Mapper
 public interface BoardMapper {
 	List<Board> searchBoardList(HashMap<String, Object> map);
+	Board viewBoard(HashMap<String, Object> map);
 	int removeBoard(HashMap<String, Object> map);
 	int insertBoard(HashMap<String, Object> map);
 }

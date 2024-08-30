@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.SchoolMapper">
+	
+	<select id="searchSchool" parameterType="hashmap" resultType = "com.example.test1.model.SchoolStudent">
+		SELECT stuNo, name, rpad(substr(id,1, length(id)-3),length(id),'*') as id, grade, SUBSTR(JUMIN, 1, 6)||'-'||RPAD(SUBSTR(JUMIN,7,1),7,'*') as JUMIN 
+		FROM stu
+	</select>
+	<select id="searchView" parameterType="hashmap" resultType = "com.example.test1.model.SchoolStudent">
+		select stuno, s.name, d1.dname as dept1, d.dname as dept2, p.name as prof
+		from stu s
+		inner join department d on s.deptno1 = d.deptno
+		inner join department d1 on d.part = d1.deptno
+		inner join professor p on s.profno = p.profno
+		where stuno = #{stuNo}
+	</select>
+
+	
+</mapper>

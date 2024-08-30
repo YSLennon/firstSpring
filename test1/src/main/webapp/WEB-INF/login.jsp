@@ -20,7 +20,6 @@
 		</div>
 		<button type="button" @click="login">login<button>
 
-
 	</div>
 </body>
 </html>

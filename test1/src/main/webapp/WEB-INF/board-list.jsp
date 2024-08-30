@@ -32,6 +32,7 @@
 			</select>
 			<input id="searchBox" v-model="keyword">
 			<button @click="fnGetList">검색</button>	
+			<a href='/board/insert.do'>글쓰기</a>
 		</div>
 		<table>
 			<tr>
@@ -44,11 +45,11 @@
 			</tr>
 			<tr v-for="item in boardList">
 				<td>{{item.boardNo}}</td>
-				<td>{{item.title}}</td>
+				<td><a href="#" @click="fnBoardView(item.boardNo)">{{item.title}}</a></td>
 				<td>{{item.userId}}</td>
 				<td>{{item.hit}}</td>
 				<td>{{item.cDatetime}}</td>
-				<td><button type="button" @click="fnRemove(item.boardNo)">삭제</button></td>
+				<td><button type="button" @click="fnRemove(item.boardNo, item.userId)">삭제</button></td>
 			</tr>
 		</table>
 	</div>
@@ -61,7 +62,8 @@
 				boardList : [],
 				keyword: "",
 				category: "all",
-				boardCat: ""
+				boardCat: "",
+				sessionId: '${userId}'
             };
         },
         methods: {
@@ -84,10 +86,10 @@
 					}
 				});
             },
-			fnRemove(removedNo){
+			fnRemove(removedNo, userId){
 				if(confirm("삭제허실?")){
 				var self = this;
-				var nparmap = {boardNo : removedNo};
+				var nparmap = {boardNo : removedNo, userId : userId};
 				$.ajax({
 					url:"/board/remove.dox",
 					dataType:"json",	
@@ -108,6 +110,10 @@
 				var self = this;
 				self.boardCat = p1;
 				self.fnGetList();
+			},
+			fnBoardView(boardNo){
+				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
+				$.pageChange("../board/view.do", {boardNo : boardNo});
 			}
         },
         mounted() {
