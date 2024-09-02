@@ -10,6 +10,7 @@ import com.example.test1.model.SchoolStudent;
 @Mapper
 public interface SchoolMapper {
 	List<SchoolStudent> searchSchool(HashMap<String, Object> map);
+	int cntSchool(HashMap<String, Object> map);
 	SchoolStudent searchView(HashMap<String, Object> map);
 	
 }

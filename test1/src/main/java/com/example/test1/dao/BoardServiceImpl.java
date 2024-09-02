@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.test1.mapper.BoardMapper;
 import com.example.test1.model.Board;
+import com.example.test1.model.Comment;
 
 @Service
 public class BoardServiceImpl implements BoardService {
@@ -24,7 +25,10 @@ public class BoardServiceImpl implements BoardService {
 
 	public HashMap<String, Object> searchBoardList(HashMap<String, Object> map) {
 		HashMap<String, Object> resultMap = new HashMap();
+		int cntBoard = boardMapper.cntBoardList(map);
 		List<Board> list = boardMapper.searchBoardList(map);
+		
+		resultMap.put("cntBoard", cntBoard);
 		resultMap.put("list", list);
 		resultMap.put("result", "success");
 		return resultMap;
@@ -76,10 +80,15 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		Board board = boardMapper.viewBoard(map);
+		List<Comment> comment = boardMapper.viewBoardComment(map);
+		System.out.println("map: " + map);
+		System.out.println("comment: " + comment);
 		resultMap.put("board", board);
+		resultMap.put("comment", comment);
 		resultMap.put("result", "success");
 		return resultMap;
 
 	}
+
 
 }

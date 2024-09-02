@@ -7,6 +7,13 @@
 	<select id="searchSchool" parameterType="hashmap" resultType = "com.example.test1.model.SchoolStudent">
 		SELECT stuNo, name, rpad(substr(id,1, length(id)-3),length(id),'*') as id, grade, SUBSTR(JUMIN, 1, 6)||'-'||RPAD(SUBSTR(JUMIN,7,1),7,'*') as JUMIN 
 		FROM stu
+		OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
+
+	</select>
+	<select id="cntSchool" parameterType="hashmap" resultType = "Integer">
+		SELECT CEIL(COUNT(*)/#{pageSize}) 
+		FROM stu
+
 	</select>
 	<select id="searchView" parameterType="hashmap" resultType = "com.example.test1.model.SchoolStudent">
 		select stuno, s.name, d1.dname as dept1, d.dname as dept2, p.name as prof

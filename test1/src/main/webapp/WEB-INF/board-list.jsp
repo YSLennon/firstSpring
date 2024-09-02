@@ -5,6 +5,8 @@
 <head>
 	<meta charset="UTF-8">
 	<jsp:include page="/layout/menu.jsp"></jsp:include>
+	<link rel="stylesheet" href="http://localhost:8080/css/style.css">
+
 	<title>첫번째 페이지</title>
 </head>
 <style>
@@ -30,8 +32,13 @@
 				<option value="org">작성자</option>	
 				<option value="tit">제목</option>	
 			</select>
+			<select v-model="pageSize" @change="fnGetList(1)">
+				<option value="5">5개씩</option>	
+				<option value="10">10개씩</option>	
+				<option value="20">20개씩</option>	
+			</select>
 			<input id="searchBox" v-model="keyword">
-			<button @click="fnGetList">검색</button>	
+			<button @click="fnGetList(1)">검색</button>	
 			<a href='/board/insert.do'>글쓰기</a>
 		</div>
 		<table>
@@ -52,6 +59,15 @@
 				<td><button type="button" @click="fnRemove(item.boardNo, item.userId)">삭제</button></td>
 			</tr>
 		</table>
+		
+		<div class="pagination">
+		    <button v-if="currentPage > 1" @click="fnGetList(currentPage - 1)">이전</button>
+		    <button v-for="page in totalPages" :class="{active: page == currentPage}" @click="fnGetList(page)">
+		        {{ page }}
+		    </button>
+		    <button v-if="currentPage < totalPages" @click="fnGetList(currentPage + 1)">다음</button>
+		</div>
+		
 	</div>
 </body>
 </html>
@@ -63,17 +79,22 @@
 				keyword: "",
 				category: "all",
 				boardCat: "",
-				sessionId: '${userId}'
+				sessionId: '${userId}',
+				currentPage: 1,      
+				pageSize: 5,        
+				totalPages: 1
             };
         },
         methods: {
-            fnGetList(){
+            fnGetList(currentPage){
 				var self = this;
 //				var nparmap = {keyword: self.keyword === "")?'%':'%'+self.keyword+'%'};
 				var nparmap = {
 								keyword: self.keyword,
 								category: self.category,
-								boardCat: self.boardCat
+								boardCat: self.boardCat,
+								currentPage: (currentPage-1)*self.pageSize,
+								pageSize: self.pageSize
 							  };
 				$.ajax({
 					url:"/board/list.dox",
@@ -82,7 +103,9 @@
 					data : nparmap,
 					success : function(data) { 
 						console.log(data);
+						self.totalPages = data.cntBoard; 
 						self.boardList = data.list;
+						self.currentPage = currentPage;
 					}
 				});
             },
@@ -98,7 +121,7 @@
 					success : function(data) {
 						alert(data.message); 
 						if(data.result){
-							self.fnGetList();	
+							self.fnGetList(self.currentPage);	
 						} 
 					}
 				});
@@ -109,7 +132,7 @@
 			changeBoardCat(p1){
 				var self = this;
 				self.boardCat = p1;
-				self.fnGetList();
+				self.fnGetList(self.currentPage);
 			},
 			fnBoardView(boardNo){
 				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
@@ -118,10 +141,10 @@
         },
         mounted() {
             var self = this;
-			self.fnGetList();
+			self.fnGetList(self.currentPage);
 			document.querySelector('#searchBox').addEventListener("keydown", (event) => {
 					if(event.key === 'Enter'){
-						self.fnGetList();
+						self.fnGetList(self.currentPage);
 					}
 				});
         }

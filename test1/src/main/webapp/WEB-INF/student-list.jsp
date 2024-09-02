@@ -16,6 +16,8 @@
 		<hr>
 		<div v-if="name != ''">이름: {{name}}, 학번 : {{stuNo}}</div>
 		
+		
+		
 	</div>
 </body>
 </html>

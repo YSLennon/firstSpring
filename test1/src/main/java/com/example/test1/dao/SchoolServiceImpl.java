@@ -25,8 +25,12 @@ public class SchoolServiceImpl implements SchoolService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
+			System.out.println(map);
+
 			List<SchoolStudent> list = schoolMapper.searchSchool(map);
+			int cntSchool = schoolMapper.cntSchool(map);
 			resultMap.put("list", list);
+			resultMap.put("cntSchool", cntSchool);
 			resultMap.put("result", true);
 		} catch(Exception e) {
 			System.out.println("Exception : "+ e);
