@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.test1.mapper.ChartMapper">
+	
+	<select id="searchChartList" parameterType="hashmap" resultType="com.example.test1.model.Chart">
+		select sum(price) as price, p_date
+		from tbl_payment group by p_date
+	</select>
+	
+	<select id="searchArea" parameterType="hashmap" resultType="com.example.test1.model.Area">
+		
+		<choose>
+			<when test="areaSi == ''">
+				select si
+				from tbl_area
+				group by si
+			</when>
+			<when test="areaGu == ''">
+				select gu
+				from tbl_area
+				where si = #{areaSi}
+				group by gu
+			</when>
+			<otherwise>
+				select dong
+				from tbl_area
+				where gu = #{areaGu} and si = #{areaSi} 
+				group by dong
+			</otherwise>
+			
+		</choose>
+	</select>	
+
+	
+</mapper>

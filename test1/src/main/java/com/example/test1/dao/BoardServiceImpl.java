@@ -63,9 +63,11 @@ public class BoardServiceImpl implements BoardService {
 		// TODO Auto-generated method stub
 		HashMap<String, Object> resultMap = new HashMap();
 		try {
+			System.out.println(map);
 			map.put("userId", session.getAttribute("userId"));
 			int insertBoard = boardMapper.insertBoard(map);
 			resultMap.put("message", "작성되었습니다.");
+			resultMap.put("idx", map.get("boardNo"));
 			resultMap.put("result", true);
 		} catch (Exception e) {
 			resultMap.put("message", "작성에 실패하였습니다.");
@@ -81,8 +83,6 @@ public class BoardServiceImpl implements BoardService {
 		HashMap<String, Object> resultMap = new HashMap();
 		Board board = boardMapper.viewBoard(map);
 		List<Comment> comment = boardMapper.viewBoardComment(map);
-		System.out.println("map: " + map);
-		System.out.println("comment: " + comment);
 		resultMap.put("board", board);
 		resultMap.put("comment", comment);
 		resultMap.put("result", "success");

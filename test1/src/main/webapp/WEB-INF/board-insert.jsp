@@ -39,8 +39,9 @@
 			</tr>
 		</table>
 		<button @click="fnSave">저장</button>
-		<div v-html="contents"></div>
+		<!--<div v-html="contents"></div>-->
 			
+		<input type="file" @change="fnFileChange"/>
 	</div>
 					
 
@@ -51,13 +52,17 @@
 	      data() {
 	          return {
 				title : "",
-				contents : ""
+				contents : "",
+				file : null
 	          };
 	      },
 	      methods: {
+			fnFileChange(event) {
+				this.file = event.target.files[0];
+			},
 			fnSave(){
 				var self = this;
-				alert(self.contents)
+
 				var nparmap = {
 					title : self.title,
 					contents : self.contents
@@ -70,11 +75,31 @@
 					success : function(data) { 
 						alert(data.message);
 						if(data.result){
-							location.href="/board/list.do";
+							var idx = data.idx;
+							console.log("idx : " + idx);
+							if (self.file) {
+							  const formData = new FormData();
+							  formData.append('file1', self.file);
+							  formData.append('idx', idx);
+
+							  $.ajax({
+								url: '/board/fileUpload.dox',
+								type: 'POST',
+								data: formData,
+								processData: false,  
+								contentType: false,  
+								success: function() {
+								  console.log('업로드 성공!');
+								},
+								error: function(jqXHR, textStatus, errorThrown) {
+								  console.error('업로드 실패!', textStatus, errorThrown);
+								}
+							  });
+							}
 						}
 					}
 				});
-	       }
+       		}
 	   },
 	      mounted() {
 			var self = this;

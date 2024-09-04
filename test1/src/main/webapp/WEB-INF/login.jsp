@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
+	<script src="https://cdn.iamport.kr/v1/iamport.js"></script>
 	<jsp:include page="/layout/menu.jsp"></jsp:include>
 	<title>첫번째 페이지</title>
 </head>
@@ -19,11 +20,13 @@
 			<input id="pwd" type="password" placeholder="password" v-model="pwd">
 		</div>
 		<button type="button" @click="login">login<button>
+			<button @click="requestPay()">로그인</button>
 
 	</div>
 </body>
 </html>
 <script>
+	IMP.init("imp14397622")
     const app = Vue.createApp({
         data() {
             return {
@@ -52,6 +55,8 @@
 					}
 				});	
             }
+
+			
         },
         mounted() {
             var self = this;
@@ -66,4 +71,7 @@
     });
     app.mount('#app');
 	
+
+
+
 </script>

@@ -60,7 +60,7 @@
 		DELETE FROM TBL_BOARD
 		WHERE BOARDNO = ${boardNo}
 	</delete>
-	<insert id="insertBoard" parameterType="hashmap">
+	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="boardNo" keyColumn="boardNo">
 		INSERT INTO TBL_BOARD (BOARDNO, TITLE, CONTENTS, USERID, HIT, CDATETIME, UDATETIME)
 		VALUES(comment_seq.nextval, #{title}, #{contents}, #{userId}, 0, SYSDATE, SYSDATE)
 	</insert>
