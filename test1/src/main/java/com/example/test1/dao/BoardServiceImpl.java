@@ -90,5 +90,16 @@ public class BoardServiceImpl implements BoardService {
 
 	}
 
+	@Override
+	public void insertBoardFile(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		try {
+			System.out.println("hhhhhhhhhhh");
+			boardMapper.insertBoardFile(map);
+		} catch (Exception e) {
+			System.out.println("Exception : " + e);
+		}
+	}
+
 
 }

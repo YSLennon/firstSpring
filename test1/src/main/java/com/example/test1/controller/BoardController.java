@@ -87,25 +87,32 @@ public class BoardController {
 //            String path2 = System.getProperty("user.dir");
             System.out.println("Working Directory = " + path + "\\src\\webapp\\img");
             if(!multi.isEmpty()){
+            	// mkdir 먼저 만들어져야함
                 File file = new File(path + "\\src\\main\\webapp\\img", saveFileName);
                 multi.transferTo(file);
                 
                 HashMap<String, Object> map = new HashMap<String, Object>();
-                map.put("filename", saveFileName);
-                map.put("path", "../img/" + saveFileName);
+                map.put("fileName", saveFileName);
+                map.put("filePath", "../img/" + saveFileName);
                 map.put("idx", idx);
+                map.put("fileOrgName", originFilename);
+                map.put("fileSize", size);
+                map.put("fileExt", extName);
                 
                 // insert 쿼리 실행         
                 
                 model.addAttribute("filename", multi.getOriginalFilename());
                 model.addAttribute("uploadPath", file.getAbsolutePath());
+                  System.out.println("insertBoardFile: " + map);              
+                boardService.insertBoardFile(map);
                 
-                return "redirect:list.do";
+                
+                return "redirect:../board/list.do";
             }
         }catch(Exception e) {
             System.out.println(e);
         }
-        return "redirect:list.do";
+        return "redirect:../board/list.do";
     }
     
     // 현재 시간을 기준으로 파일 이름 생성

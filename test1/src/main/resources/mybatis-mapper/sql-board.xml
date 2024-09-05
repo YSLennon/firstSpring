@@ -64,5 +64,9 @@
 		INSERT INTO TBL_BOARD (BOARDNO, TITLE, CONTENTS, USERID, HIT, CDATETIME, UDATETIME)
 		VALUES(comment_seq.nextval, #{title}, #{contents}, #{userId}, 0, SYSDATE, SYSDATE)
 	</insert>
+	<insert id="insertBoardFile" parameterType="hashmap">
+	insert into tbl_boardfile
+	values ( boardfile_seq.nextval, #{idx}, #{fileName}, #{fileOrgName}, #{filePath}, #{fileSize}, #{fileExt},'N')
+	</insert>
 	
 </mapper>

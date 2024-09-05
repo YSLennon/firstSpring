@@ -11,5 +11,6 @@ public interface BoardService {
 	HashMap<String, Object> removeBoard(HashMap<String, Object> map);
 	HashMap<String, Object> insertBoard(HashMap<String, Object> map);
 	HashMap<String, Object> viewBoard(HashMap<String, Object> map);
+	void insertBoardFile(HashMap<String, Object> map);
 
 }
