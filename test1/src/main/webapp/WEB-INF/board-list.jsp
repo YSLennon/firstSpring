@@ -43,6 +43,7 @@
 		</div>
 		<table>
 			<tr>
+				<th>몰</th>
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성자</th>
@@ -51,6 +52,7 @@
 				<th>삭제</th>
 			</tr>
 			<tr v-for="item in boardList">
+				<td><input type="checkbox" :value="item.boardNo" v-model="checkBox"></td>
 				<td>{{item.boardNo}}</td>
 				<td><a href="#" @click="fnBoardView(item.boardNo)">{{item.title}}</a></td>
 				<td>{{item.userId}}</td>
@@ -58,6 +60,8 @@
 				<td>{{item.cDatetime}}</td>
 				<td><button type="button" @click="fnRemove(item.boardNo, item.userId)">삭제</button></td>
 			</tr>
+			<td><button type="button" @click="fnCheckRemove()">선택 삭제</button></td>
+			{{checkBox}}
 		</table>
 		
 		<div class="pagination">
@@ -76,6 +80,7 @@
         data() {
             return {
 				boardList : [],
+				checkBox: [],
 				keyword: "",
 				category: "all",
 				boardCat: "",
@@ -137,6 +142,24 @@
 			fnBoardView(boardNo){
 				// key : boardNo, value : 내가 누른 게시글의 boardNo(pk)
 				$.pageChange("../board/view.do", {boardNo : boardNo});
+			},
+			fnCheckRemove(){
+				var self = this;
+				var nparmap = {
+						checkBox: JSON.stringify(self.checkBox),
+						testKey : "testValue"
+					};
+
+				$.ajax({
+					url:"/board/fnCheckRemove.dox",
+					dataType:"json",	
+					type : "POST", 
+					data : nparmap,
+					success : function(data) { 
+						alert("지워졌어용");
+						self.fnGetList(1);
+					}
+				});
 			}
         },
         mounted() {

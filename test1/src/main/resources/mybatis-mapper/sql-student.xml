@@ -30,6 +30,12 @@
 	<select id="searchEMP" parameterType="hashmap" resultType="com.example.test1.model.EMP">
 		SELECT * 
 		FROM EMP
+		<if test="deptList.size() != 0">
+			WHERE DEPTNO IN 
+			<foreach collection="deptList" item="item" open="(" close=")" separator=",">
+			#{item}
+			</foreach>
+		</if>
 	</select>
 	<select id="searchSubject" parameterType="hashmap" resultType="com.example.test1.model.Student">
 		SELECT * 

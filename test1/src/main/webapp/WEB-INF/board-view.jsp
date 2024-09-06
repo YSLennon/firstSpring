@@ -53,10 +53,16 @@
 				title : "",
 				contents : "",
 				userId:'',
-				boardNo: '${boardNo}'
+				boardNo: '${boardNo}',
+				mode: '1'
 	          };
 	      },
 	      methods: {
+			fnChange(){
+				var self = this;
+				self.mode ='2';
+			}
+			,
 		  	fnGetView(){
 	  			var self = this;
 	  			var nparmap = {boardNo : self.boardNo};

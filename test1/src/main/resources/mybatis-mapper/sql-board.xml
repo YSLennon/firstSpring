@@ -60,6 +60,13 @@
 		DELETE FROM TBL_BOARD
 		WHERE BOARDNO = ${boardNo}
 	</delete>
+	<delete id="fnCheckRemove" parameterType="hashmap">
+		DELETE FROM TBL_BOARD
+		WHERE BOARDNO IN 
+		<foreach collection="list" item="item" open="(" close=")" separator=",">
+			#{item}
+		</foreach>
+	</delete>
 	<insert id="insertBoard" parameterType="hashmap" useGeneratedKeys="true" keyProperty="boardNo" keyColumn="boardNo">
 		INSERT INTO TBL_BOARD (BOARDNO, TITLE, CONTENTS, USERID, HIT, CDATETIME, UDATETIME)
 		VALUES(comment_seq.nextval, #{title}, #{contents}, #{userId}, 0, SYSDATE, SYSDATE)

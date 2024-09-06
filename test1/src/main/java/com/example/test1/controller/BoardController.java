@@ -3,6 +3,7 @@ package com.example.test1.controller;
 import java.io.File;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.example.test1.dao.BoardService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @Controller
@@ -50,6 +53,18 @@ public class BoardController {
 	@ResponseBody
 	public String removeBoard(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
 		HashMap<String, Object> resultMap= boardService.removeBoard(map);
+		return new Gson().toJson(resultMap);
+	}
+	@RequestMapping(value = "/board/fnCheckRemove.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
+	@ResponseBody
+	public String fnCheckRemove(Model model, @RequestParam HashMap<String, Object> map) throws Exception{
+		HashMap<String, Object> resultMap= new HashMap<>();
+		System.out.println(map);
+		String json = map.get("checkBox").toString(); 
+		ObjectMapper mapper = new ObjectMapper();
+		List<Object> list = mapper.readValue(json, new TypeReference<List<Object>>(){});
+		map.put("list", list);
+		resultMap = boardService.fnCheckRemove(map);
 		return new Gson().toJson(resultMap);
 	}
 	@RequestMapping(value = "/board/insert.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")

@@ -13,7 +13,7 @@ public interface StudentMapper {
 	List<Student> selectStudentList();
 	Student qwer();
 	Student searchNumb(HashMap<String, Object> map);
-	List<EMP> searchEMP();
+	List<EMP> searchEMP(HashMap<String, Object> map);
 	List<Student> searchSubject();
 
 }

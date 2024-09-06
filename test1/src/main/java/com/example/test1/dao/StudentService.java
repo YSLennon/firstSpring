@@ -11,7 +11,7 @@ public interface StudentService {
 	List<Student> searchStudentList();
 	Student searchQwer();
 	HashMap<String, Object> searchNumb(HashMap<String,Object> map);
-	List<EMP> searchEMP();
+	List<EMP> searchEMP(HashMap<String, Object> map);
 	HashMap<String, List<Student>> searchSubject();
 
 	

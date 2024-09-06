@@ -15,6 +15,7 @@ public interface BoardMapper {
 	Board viewBoard(HashMap<String, Object> map);
 	List<Comment> viewBoardComment(HashMap<String, Object> map);
 	int removeBoard(HashMap<String, Object> map);
+	int fnCheckRemove(HashMap<String, Object> map);
 	int insertBoard(HashMap<String, Object> map);
 	void insertBoardFile(HashMap<String, Object> map);
 	

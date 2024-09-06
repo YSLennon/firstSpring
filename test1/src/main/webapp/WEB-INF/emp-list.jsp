@@ -8,9 +8,20 @@
 	<title>첫번째 페이지</title>
 </head>
 <style>
+	table, tr, td, th {
+		border-collapse: collapse;
+		border: 1px solid black;
+		padding: 10px 20px;
+	}
 </style>
 <body>
 	<div id="app">
+		
+		<input type="checkbox" value ="10" v-model="deptList" @change="fnGetList()">ACCOUNTING
+		<input type="checkbox" value ="20" v-model="deptList" @change="fnGetList()">RESEARCH
+		<input type="checkbox" value ="30" v-model="deptList" @change="fnGetList()">SALES
+		<input type="checkbox" value ="40" v-model="deptList" @change="fnGetList()">OPERATIONS
+
 		<table>
 		<tr v-for="item in list">
 			<td>{{item.empNo}}</td>	
@@ -23,6 +34,9 @@
 			<td>{{item.deptNo}}</td>	
 		</tr>	
 		</table>
+		
+	
+		
 	</div>
 </body>
 </html>
@@ -31,13 +45,14 @@
         data() {
             return {
                 name : "",
-				list : {}
+				list : {},
+				deptList : []
             };
         },
         methods: {
             fnGetList(){
 				var self = this;
-				var nparmap = {};
+				var nparmap = {deptList: JSON.stringify(self.deptList)};
 				$.ajax({
 					url:"empList.dox",
 					dataType:"json",	

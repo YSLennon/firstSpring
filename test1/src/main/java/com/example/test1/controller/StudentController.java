@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.example.test1.dao.StudentService;
 import com.example.test1.model.EMP;
 import com.example.test1.model.Student;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
 
 @Controller
@@ -68,8 +70,14 @@ public class StudentController {
 	@RequestMapping(value = "/empList.dox", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String printEmp(Model model, @RequestParam HashMap<String, Object> map) throws Exception {
+		System.out.println(map);
 
-		List<EMP> list = studentService.searchEMP();
+		String json = map.get("deptList").toString(); 
+		ObjectMapper mapper = new ObjectMapper();
+		List<Object> deptList = mapper.readValue(json, new TypeReference<List<Object>>(){});
+		map.put("deptList", deptList);
+		System.out.println(deptList.size());
+		List<EMP> list = studentService.searchEMP(map);
 
 		return new Gson().toJson(list);
 	}

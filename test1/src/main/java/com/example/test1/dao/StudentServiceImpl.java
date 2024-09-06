@@ -50,9 +50,9 @@ public class StudentServiceImpl implements StudentService{
 	}
 
 	@Override
-	public List<EMP> searchEMP() {
+	public List<EMP> searchEMP(HashMap<String, Object> map) {
 		// TODO Auto-generated method stub
-		List<EMP> list = studentMapper.searchEMP();
+		List<EMP> list = studentMapper.searchEMP(map);
 		System.out.println(list.get(0));
 		return list;
 	}

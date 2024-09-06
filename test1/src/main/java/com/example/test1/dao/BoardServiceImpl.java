@@ -100,6 +100,22 @@ public class BoardServiceImpl implements BoardService {
 			System.out.println("Exception : " + e);
 		}
 	}
+	@Override
+	public HashMap<String, Object> fnCheckRemove(HashMap<String, Object> map) {
+		// TODO Auto-generated method stub
+		HashMap<String, Object> resultMap = new HashMap();
+		try {
+				int removedNo = boardMapper.fnCheckRemove(map);
+				resultMap.put("message", "삭제되었습니다.");
+				resultMap.put("result", true);	
+						
+		} catch (Exception e) {
+			resultMap.put("message", "삭제에 실패하였습니다.");
+			resultMap.put("result", false);
+			System.out.println("Exception : " + e);
+		}
+		return resultMap;
+	}
 
 
 }
