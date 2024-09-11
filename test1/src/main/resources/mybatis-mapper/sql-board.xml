@@ -24,8 +24,21 @@
 		</if>
 	</select>
 	<select id="searchBoardList" parameterType="hashmap" resultType="com.example.test1.model.Board">
-		SELECT *
-		FROM TBL_BOARD
+		
+		
+		SELECT CASE
+		           WHEN TO_CHAR(CDATETIME, 'YYYY-MM-DD') = TO_CHAR(SYSDATE, 'YYYY-MM-DD') THEN TO_CHAR(CDATETIME, 'HH24:MI:SS')
+		           WHEN TO_CHAR(CDATETIME, 'YYYY-MM-DD') != TO_CHAR(SYSDATE, 'YYYY-MM-DD') THEN TO_CHAR(CDATETIME, 'YYYY-MM-DD')
+		       END AS RES_DATE,
+		       NVL(CNT , ' ') AS CNT,
+		       B.*
+		FROM TBL_BOARD B
+		LEFT JOIN (
+		        SELECT  '(' || TO_CHAR(COUNT(*)) || ')'  AS CNT, BOARDNO 
+		        FROM TBL_COMMENT
+		        GROUP BY BOARDNO
+		        ) C ON B.BOARDNO = C.BOARDNO
+		
 		<choose>
 			
 			<when test="category == 'all'">
@@ -44,8 +57,10 @@
 			 AND CATEGORY = #{boardCat}
 		</if>
 		ORDER BY CDATETIME DESC
+		<!--페이징 처리!!-->
 		OFFSET #{currentPage} ROWS FETCH FIRST #{pageSize} ROWS ONLY
-
+	
+	
 	</select>
 	
 	<select id="viewBoard" parameterType="hashmap" resultType = "com.example.test1.model.Board">

@@ -16,5 +16,7 @@ public class Board {
 	private String noticeYN;
 	private String cDatetime;
 	private String uDatetime;
+	private String resDate;
+	private String cnt;
 	
 }

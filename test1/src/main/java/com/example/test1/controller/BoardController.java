@@ -27,7 +27,10 @@ public class BoardController {
 	
 	@Autowired
 	BoardService boardService;
-	
+	@RequestMapping("weather.do")
+	public String mainw(Model model) throws Exception{
+		return "/weather";
+	}	
 	@RequestMapping("board/list.do")
 	public String main(Model model) throws Exception{
 		return "/board-list";

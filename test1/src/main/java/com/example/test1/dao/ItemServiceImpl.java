@@ -3,9 +3,12 @@ package com.example.test1.dao;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.ibatis.exceptions.PersistenceException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import com.example.test1.constants.ResMessage;
 import com.example.test1.mapper.ItemMapper;
 import com.example.test1.model.Item;
 
@@ -28,14 +31,25 @@ public class ItemServiceImpl implements ItemService{
 			List<Item> codeList = itemMapper.searchCodes(map);
 			
 			resultMap.put("result", true);
-			resultMap.put("message", "성공~");
+			resultMap.put("message", ResMessage.SUCCESS);
 			resultMap.put("list", list);
 			resultMap.put("codeList", codeList);
+			
+		} catch(DataAccessException e ) {
+			resultMap.put("result", false);
+			resultMap.put("message", "데이터 베이스 접근 에러"); 
+			String str = ResMessage.DB_ACCESS_ERROR;
+			
+		} catch(PersistenceException e ) {
+			resultMap.put("result", false);
+			resultMap.put("message", "Mybatis sql 구문 에러");
+			String str = ResMessage.MYBATIS_ERROR;
 			
 		} catch(Exception e) {
 			System.out.println("Exception : " + e);
 			resultMap.put("result", false);
-			resultMap.put("message", "에러가 발생했습니다. 에러 코드를 확인해주세요");
+			resultMap.put("message", "알 수 없는 에러");
+			String str = ResMessage.UNKNOWN_ERROR;
 		}
 
 

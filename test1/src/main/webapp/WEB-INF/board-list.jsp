@@ -54,10 +54,10 @@
 			<tr v-for="item in boardList">
 				<td><input type="checkbox" :value="item.boardNo" v-model="checkBox"></td>
 				<td>{{item.boardNo}}</td>
-				<td><a href="#" @click="fnBoardView(item.boardNo)">{{item.title}}</a></td>
+				<td><a href="#" @click="fnBoardView(item.boardNo)">{{item.title}} {{item.cnt}}</a></td>
 				<td>{{item.userId}}</td>
 				<td>{{item.hit}}</td>
-				<td>{{item.cDatetime}}</td>
+				<td>{{item.resDate}}</td>
 				<td><button type="button" @click="fnRemove(item.boardNo, item.userId)">삭제</button></td>
 			</tr>
 			<td><button type="button" @click="fnCheckRemove()">선택 삭제</button></td>
